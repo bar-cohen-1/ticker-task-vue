@@ -4,6 +4,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-size: 16px;
   margin: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 * {

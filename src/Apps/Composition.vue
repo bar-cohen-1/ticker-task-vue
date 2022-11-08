@@ -4,6 +4,7 @@
       <span>{{ count }}</span>
     </div>
     <div class="actions">
+      <input v-model="limit" type="number" />
       <button class="reset-button" @click="resetCount">Reset</button>
       <button class="activation-button" @click="activateCount">
         {{ activationButtonText }}
@@ -12,44 +13,52 @@
   </main>
 </template>
 
-<script>
-import { computed, onMounted, onBeforeUnmount, ref } from "vue";
+<script setup>
+import { ref, watch, computed, onMounted, onBeforeUnmount } from "vue";
 
-export default {
-  setup() {
-    const interval = ref(null);
-    const count = ref(0);
+// State
+const interval = ref(null);
+const count = ref(0);
+const limit = ref(60);
 
-    const startCount = () => {
-      interval.value = setInterval(() => {
-        count.value++;
-      }, 1000);
-    };
-    const stopCount = () => {
-      clearInterval(interval.value);
-      interval.value = null;
-    };
-    const resetCount = () => {
-      count.value = 0;
-    };
-
-    const activationButtonText = computed(() => {
-      return interval.value ? "Pause" : "Resume";
-    });
-    const activateCount = computed(() => {
-      return interval.value ? stopCount : startCount;
-    });
-
-    onMounted(() => {
-      startCount();
-    });
-    onBeforeUnmount(() => {
-      stopCount();
-    });
-
-    return { count, activationButtonText, activateCount, resetCount };
-  },
+// Reset
+const resetCount = () => {
+  count.value = 0;
 };
+
+// Activate button properties
+const activationButtonText = computed(() => {
+  return interval.value ? "Pause" : "Resume";
+});
+const activateCount = computed(() => {
+  return interval.value ? stopCount : startCount;
+});
+
+// Activate methods
+const startCount = () => {
+  interval.value = setInterval(() => {
+    count.value++;
+  }, 1000);
+};
+const stopCount = () => {
+  clearInterval(interval.value);
+  interval.value = null;
+};
+
+// Limit effect
+watch([count, limit], ([newCount, newLimit]) => {
+  if (newCount === newLimit) {
+    resetCount();
+  }
+});
+
+// Lifecycle methods
+onMounted(() => {
+  startCount();
+});
+onBeforeUnmount(() => {
+  stopCount();
+});
 </script>
 
 <style scoped>
@@ -84,9 +93,13 @@ main {
   gap: 0.5em;
 }
 
-.actions button {
+.actions button,
+.actions input {
   width: 6em;
   padding: 0.5em 1em;
+}
+
+.actions button {
   color: white;
   cursor: pointer;
 }

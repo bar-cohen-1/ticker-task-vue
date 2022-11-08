@@ -1,11 +1,7 @@
-# Vue Ticker Task
+# Vue 3 + Vite
 
-The ticker task in Vue
+This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
 
-## The Files In This Sandbox
+## Recommended IDE Setup
 
-- src/Options.vue - solution in Options API
-- src/Composition.vue - solution in Composition API
-- src/App.vue - blank file to start with
-
-Choose the solution to render in src/main.js.
+- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
